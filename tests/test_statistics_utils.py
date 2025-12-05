@@ -87,6 +87,10 @@ class TestStatisticsUtils(unittest.TestCase):
         - Crear una secuencia bidimensional (ej: [[1, 2], [3, 4]])
         - Llamar a moving_average con esa secuencia y verificar que se lanza un ValueError indicando que solo se aceptan secuencias 1D (usar self.assertRaises)
         """
+        utils = StatisticsUtils()
+        arr_2d = [[1, 2], [4, 5]]
+        with self.assertRaises(ValueError):
+            utils.moving_average(arr_2d, window=2)
 
     def test_zscore_has_mean_zero_and_unit_std(self):
         """Test que verifica que el método zscore calcula correctamente los z-scores
@@ -99,6 +103,11 @@ class TestStatisticsUtils(unittest.TestCase):
         - Verificar que la media del resultado es aproximadamente 0 (usar self.assertAlmostEqual para un solo valor numérico - unittest es suficiente)
         - Verificar que la desviación estándar del resultado es aproximadamente 1 (usar self.assertAlmostEqual para un solo valor numérico - unittest es suficiente)
         """
+        utils = StatisticsUtils()
+        arr = [10, 20, 30, 40]
+        result = utils.zscore(arr)
+        self.assertAlmostEqual(result.mean(), 0.0, places=10, msg='La media del z-score debería ser aproximadamente 0')
+        self.assertAlmostEqual(result.std(), 1.0, places=10, msg='La desviación estándar del del z-score debería aproximadamente 1')
 
     def test_zscore_raises_for_zero_std(self):
         """Test que verifica que el método zscore lanza un ValueError cuando
