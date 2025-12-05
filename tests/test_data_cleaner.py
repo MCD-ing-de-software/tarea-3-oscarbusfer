@@ -120,7 +120,6 @@ class TestDataCleaner(unittest.TestCase):
             "age": [25, 30, 35],
             "city": ["SCL", "LPZ", "SCL",]
         })
-        df_original = df.copy()
         result = cleaner.trim_strings(df, ['name'])
         self.assertEqual(df['name'].iloc[0], " Alice ", "El dataframe original no debería ser modificado")
         self.assertEqual(result['name'].iloc[0], "Alice", "Los espacios en blanco deberían ser eliminados")
@@ -135,6 +134,10 @@ class TestDataCleaner(unittest.TestCase):
         - Llamar a trim_strings con una columna numérica (ej: "age")
         - Verificar que se lanza un TypeError (usar self.assertRaises)
         """
+        cleaner = DataCleaner()
+        df = make_sample_df()
+        with self.assertRaises(TypeError):
+            cleaner.trim_strings(df, ['age'])
 
     def test_remove_outliers_iqr_removes_extreme_values(self):
         """Test que verifica que el método remove_outliers_iqr elimina correctamente los
